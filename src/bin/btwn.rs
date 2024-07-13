@@ -104,7 +104,9 @@ fn main() -> io::Result<()> {
                             stdout.write_all(&buf[pos..=pos + i])?;
                         }
                         RangeType::InclExcl | RangeType::ExclExcl => {
-                            stdout.write_all(&buf[pos..=pos + i - end.len()])?;
+                            if pos + i >= end.len() {
+                                stdout.write_all(&buf[pos..=pos + i - end.len()])?;
+                            }
                         }
                     }
                     return Ok(());
@@ -130,7 +132,9 @@ fn main() -> io::Result<()> {
                             stdout.write_all(&buf[..=i])?;
                         }
                         RangeType::InclExcl | RangeType::ExclExcl => {
-                            stdout.write_all(&buf[..=i - end.len()])?;
+                            if i >= end.len() {
+                                stdout.write_all(&buf[..=i - end.len()])?;
+                            }
                         }
                     }
                     return Ok(());
